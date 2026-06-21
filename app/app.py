@@ -11,9 +11,8 @@ def load_model():
 
 model = load_model()
 
-# DEBUG LINES
-st.write("Model expects features:", model.n_features_in_)
-st.write("Feature names:", model.feature_names_in_)
+# DEBUG - shows on page load, no button needed
+st.write("Feature names:", list(model.feature_names_in_))
 
 # ---------------- CUSTOM CSS ----------------
 st.markdown("""
@@ -55,27 +54,10 @@ with col1:
 with col2:
     st.markdown("### 🎯 Prediction Result")
     if st.button("Predict Accident Risk 🚨", use_container_width=True):
-        weather_map = {"Clear": 0, "Rainy": 1, "Foggy": 2, "Stormy": 3}
-        road_map = {"Highway": 0, "City": 1, "Rural": 2}
-
-        features = np.array([[
-            speed,
-            weather_map[weather],
-            road_map[road],
-            traffic
-        ]])
-
-        prediction = model.predict(features)[0]
-
-        st.markdown("### Result:")
-        if prediction == 1:
-            st.error("🔴 High Accident Risk")
-            st.write("Take extra caution while driving.")
-        elif prediction == 0:
-            st.success("🟢 Low Accident Risk")
-            st.write("Conditions are safe for driving.")
-        else:
-            st.warning("🟡 Medium Risk")
+        # STOP prediction, just show feature names
+        st.info("Your model needs these 11 features:")
+        st.write(list(model.feature_names_in_))
+        st.stop()
 
 # ---------------- FOOTER ----------------
 st.divider()
