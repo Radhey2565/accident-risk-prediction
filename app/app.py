@@ -11,6 +11,9 @@ def load_model():
 
 model = load_model()
 
+# DEBUG LINE - tells you how many features model needs
+st.write("Model expects features:", model.n_features_in_)
+
 # ---------------- CUSTOM CSS ----------------
 st.markdown("""
     <style>
