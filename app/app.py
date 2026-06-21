@@ -4,10 +4,11 @@ import streamlit as st
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "../models/risk_model.pkl")
 
+import joblib
+
 @st.cache_resource
 def load_model():
-    with open(MODEL_PATH, "rb") as f:
-        model = pickle.load(f)
+    model = joblib.load("../models/model.pkl")  # adjust path if needed
     return model
 
 model = load_model()
