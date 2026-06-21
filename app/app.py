@@ -1,18 +1,15 @@
-import streamlit as st
 import os
 import pickle
-import numpy as np
+import streamlit as st
 
-# ---------------- PAGE CONFIG ----------------
-st.set_page_config(
-    page_title="Accident Risk Predictor",
-    page_icon="🚧",
-    layout="wide"
-)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "..", "models", "risk_model.pkl")
 
-# ---------------- LOAD MODEL (FIXED PATH) ----------------
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "../models/risk_model.pkl")
-model = pickle.load(open(MODEL_PATH, "rb"))
+st.write("Model path:", MODEL_PATH)
+st.write("Exists:", os.path.exists(MODEL_PATH))
+
+with open(MODEL_PATH, "rb") as f:
+    model = pickle.load(f)
 
 # ---------------- CUSTOM CSS ----------------
 st.markdown("""
