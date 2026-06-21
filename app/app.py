@@ -1,165 +1,86 @@
 import streamlit as st
-import pandas as pd
-import joblib
-from pathlib import Path
+import pickle
+import numpy as np
 
-# ==========================
-# Page Config
-# ==========================
-
+# ---------------- PAGE CONFIG ----------------
 st.set_page_config(
-    page_title="Road Accident Risk Prediction",
-    page_icon="🚗",
-    layout="centered"
+    page_title="Accident Risk Predictor",
+    page_icon="🚧",
+    layout="wide"
 )
 
-# ==========================
-# Load Model
-# ==========================
+# ---------------- LOAD MODEL ----------------
+model = pickle.load(open("risk_model.pkl", "rb"))
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# ---------------- CUSTOM CSS ----------------
+st.markdown("""
+    <style>
+    .main {
+        background-color: #0e1117;
+    }
+    .title {
+        font-size: 40px;
+        font-weight: bold;
+        color: #00d4ff;
+        text-align: center;
+    }
+    .subtitle {
+        text-align: center;
+        color: #cfcfcf;
+        margin-bottom: 30px;
+    }
+    .card {
+        background-color: #161b22;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-MODEL_PATH = BASE_DIR / "models" / "risk_model.pkl"
+# ---------------- HEADER ----------------
+st.markdown('<div class="title">🚧 Accident Risk Prediction System</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">AI-powered system to predict road accident risk level</div>', unsafe_allow_html=True)
 
-if not MODEL_PATH.exists():
-    st.error(f"Model file not found: {MODEL_PATH}")
-    st.stop()
+st.divider()
 
-model = joblib.load(MODEL_PATH)
+# ---------------- LAYOUT ----------------
+col1, col2 = st.columns(2)
 
-# ==========================
-# Title
-# ==========================
+with col1:
+    st.markdown("### 📊 Input Features")
 
-st.title("🚗 Road Accident Risk Prediction System")
+    speed = st.slider("Speed (km/h)", 0, 150, 60)
+    weather = st.selectbox("Weather Condition", ["Clear", "Rainy", "Foggy", "Stormy"])
+    road = st.selectbox("Road Type", ["Highway", "City", "Rural"])
+    traffic = st.slider("Traffic Density", 0, 100, 50)
 
-st.write(
-    "Enter accident conditions below to predict the risk level."
-)
+with col2:
+    st.markdown("### 🎯 Prediction Panel")
 
-# ==========================
-# Inputs
-# ==========================
+    if st.button("Predict Risk 🚨", use_container_width=True):
 
-lat = st.number_input(
-    "Latitude",
-    value=39.8,
-    format="%.6f"
-)
+        # Example encoding (adjust based on your training)
+        weather_map = {"Clear": 0, "Rainy": 1, "Foggy": 2, "Stormy": 3}
+        road_map = {"Highway": 0, "City": 1, "Rural": 2}
 
-lng = st.number_input(
-    "Longitude",
-    value=-84.0,
-    format="%.6f"
-)
+        features = np.array([[speed,
+                              weather_map[weather],
+                              road_map[road],
+                              traffic]])
 
-temp = st.number_input(
-    "Temperature (F)",
-    value=70.0
-)
+        prediction = model.predict(features)[0]
 
-humidity = st.number_input(
-    "Humidity (%)",
-    value=50.0
-)
+        st.markdown("### Result")
 
-pressure = st.number_input(
-    "Pressure (in)",
-    value=29.9
-)
+        if prediction == 1:
+            st.error("🔴 High Accident Risk")
+        elif prediction == 0:
+            st.success("🟢 Low Accident Risk")
+        else:
+            st.warning("🟡 Medium Risk")
 
-visibility = st.number_input(
-    "Visibility (mi)",
-    value=10.0
-)
+# ---------------- FOOTER ----------------
+st.divider()
+st.caption("Built with ❤️ using Streamlit | ML Project by Radhey Mohan Singh")
 
-wind_speed = st.number_input(
-    "Wind Speed (mph)",
-    value=5.0
-)
-
-weather = st.number_input(
-    "Weather Condition Encoded",
-    value=0
-)
-
-hour = st.slider(
-    "Hour",
-    min_value=0,
-    max_value=23,
-    value=12
-)
-
-month = st.slider(
-    "Month",
-    min_value=1,
-    max_value=12,
-    value=6
-)
-
-day = st.slider(
-    "Day Of Week",
-    min_value=0,
-    max_value=6,
-    value=3
-)
-
-# ==========================
-# Predict Button
-# ==========================
-
-if st.button("Predict Risk"):
-
-    data = pd.DataFrame(
-        [[
-            lat,
-            lng,
-            temp,
-            humidity,
-            pressure,
-            visibility,
-            wind_speed,
-            weather,
-            hour,
-            month,
-            day
-        ]],
-        columns=[
-            "Start_Lat",
-            "Start_Lng",
-            "Temperature(F)",
-            "Humidity(%)",
-            "Pressure(in)",
-            "Visibility(mi)",
-            "Wind_Speed(mph)",
-            "Weather_Condition",
-            "Hour",
-            "Month",
-            "DayOfWeek"
-        ]
-    )
-
-    # Probability of High Risk (Class 1)
-    probability = model.predict_proba(data)[0][1]
-
-    st.subheader("Prediction Result")
-
-    st.write(
-        f"### High Risk Probability: {probability * 100:.2f}%"
-    )
-
-    st.progress(float(probability))
-
-    # Custom threshold
-    prediction = 1 if probability >= 0.30 else 0
-
-    if prediction == 1:
-        st.error("⚠️ HIGH ACCIDENT RISK")
-    else:
-        st.success("✅ LOW ACCIDENT RISK")
-
-    st.write("---")
-
-    st.write("Input Summary")
-
-    st.dataframe(data)
