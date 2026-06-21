@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 import pickle
 import numpy as np
 
@@ -9,78 +10,79 @@ st.set_page_config(
     layout="wide"
 )
 
-# ---------------- LOAD MODEL ----------------
-model = pickle.load(open("risk_model.pkl", "rb"))
+# ---------------- LOAD MODEL (FIXED PATH) ----------------
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "../models/risk_model.pkl")
+model = pickle.load(open(MODEL_PATH, "rb"))
 
 # ---------------- CUSTOM CSS ----------------
 st.markdown("""
     <style>
-    .main {
-        background-color: #0e1117;
-    }
     .title {
-        font-size: 40px;
+        font-size: 42px;
         font-weight: bold;
-        color: #00d4ff;
         text-align: center;
+        color: #00d4ff;
     }
     .subtitle {
         text-align: center;
         color: #cfcfcf;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
     }
-    .card {
+    .box {
         background-color: #161b22;
         padding: 20px;
         border-radius: 12px;
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
     }
     </style>
 """, unsafe_allow_html=True)
 
 # ---------------- HEADER ----------------
 st.markdown('<div class="title">🚧 Accident Risk Prediction System</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">AI-powered system to predict road accident risk level</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">AI-powered ML model for predicting road accident risk</div>', unsafe_allow_html=True)
 
 st.divider()
 
-# ---------------- LAYOUT ----------------
+# ---------------- INPUT SECTION ----------------
 col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("### 📊 Input Features")
 
     speed = st.slider("Speed (km/h)", 0, 150, 60)
-    weather = st.selectbox("Weather Condition", ["Clear", "Rainy", "Foggy", "Stormy"])
+    weather = st.selectbox("Weather", ["Clear", "Rainy", "Foggy", "Stormy"])
     road = st.selectbox("Road Type", ["Highway", "City", "Rural"])
     traffic = st.slider("Traffic Density", 0, 100, 50)
 
 with col2:
-    st.markdown("### 🎯 Prediction Panel")
+    st.markdown("### 🎯 Prediction Result")
 
-    if st.button("Predict Risk 🚨", use_container_width=True):
+    if st.button("Predict Accident Risk 🚨", use_container_width=True):
 
-        # Example encoding (adjust based on your training)
+        # Encoding (must match training)
         weather_map = {"Clear": 0, "Rainy": 1, "Foggy": 2, "Stormy": 3}
         road_map = {"Highway": 0, "City": 1, "Rural": 2}
 
-        features = np.array([[speed,
-                              weather_map[weather],
-                              road_map[road],
-                              traffic]])
+        features = np.array([[
+            speed,
+            weather_map[weather],
+            road_map[road],
+            traffic
+        ]])
 
         prediction = model.predict(features)[0]
 
-        st.markdown("### Result")
+        st.markdown("### Result:")
 
         if prediction == 1:
             st.error("🔴 High Accident Risk")
+            st.write("Take extra caution while driving.")
         elif prediction == 0:
             st.success("🟢 Low Accident Risk")
+            st.write("Conditions are safe for driving.")
         else:
             st.warning("🟡 Medium Risk")
 
 # ---------------- FOOTER ----------------
 st.divider()
-st.caption("Built with ❤️ using Streamlit | ML Project by Radhey Mohan Singh")
+st.caption("Built with ❤️ using Streamlit | Accident Risk Prediction Project")
 
