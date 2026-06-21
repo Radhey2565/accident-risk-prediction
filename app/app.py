@@ -1,17 +1,16 @@
 import os
-import pickle
+import numpy as np
+import joblib
 import streamlit as st
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "../models/risk_model.pkl")
 
-import joblib
-
 @st.cache_resource
 def load_model():
-    model = joblib.load("../models/model.pkl")  # adjust path if needed
-    return model
+    return joblib.load(MODEL_PATH)
 
 model = load_model()
+
 # ---------------- CUSTOM CSS ----------------
 st.markdown("""
     <style>
@@ -37,7 +36,6 @@ st.markdown("""
 # ---------------- HEADER ----------------
 st.markdown('<div class="title">🚧 Accident Risk Prediction System</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">AI-powered ML model for predicting road accident risk</div>', unsafe_allow_html=True)
-
 st.divider()
 
 # ---------------- INPUT SECTION ----------------
@@ -45,7 +43,6 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("### 📊 Input Features")
-
     speed = st.slider("Speed (km/h)", 0, 150, 60)
     weather = st.selectbox("Weather", ["Clear", "Rainy", "Foggy", "Stormy"])
     road = st.selectbox("Road Type", ["Highway", "City", "Rural"])
@@ -53,10 +50,7 @@ with col1:
 
 with col2:
     st.markdown("### 🎯 Prediction Result")
-
     if st.button("Predict Accident Risk 🚨", use_container_width=True):
-
-        # Encoding (must match training)
         weather_map = {"Clear": 0, "Rainy": 1, "Foggy": 2, "Stormy": 3}
         road_map = {"Highway": 0, "City": 1, "Rural": 2}
 
@@ -70,7 +64,6 @@ with col2:
         prediction = model.predict(features)[0]
 
         st.markdown("### Result:")
-
         if prediction == 1:
             st.error("🔴 High Accident Risk")
             st.write("Take extra caution while driving.")
@@ -83,4 +76,3 @@ with col2:
 # ---------------- FOOTER ----------------
 st.divider()
 st.caption("Built with ❤️ using Streamlit | Accident Risk Prediction Project")
-
