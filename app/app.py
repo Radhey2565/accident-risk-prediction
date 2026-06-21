@@ -2,15 +2,15 @@ import os
 import pickle
 import streamlit as st
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "..", "models", "risk_model.pkl")
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "../models/risk_model.pkl")
 
-st.write("Model path:", MODEL_PATH)
-st.write("Exists:", os.path.exists(MODEL_PATH))
+@st.cache_resource
+def load_model():
+    with open(MODEL_PATH, "rb") as f:
+        model = pickle.load(f)
+    return model
 
-with open(MODEL_PATH, "rb") as f:
-    model = pickle.load(f)
-
+model = load_model()
 # ---------------- CUSTOM CSS ----------------
 st.markdown("""
     <style>
