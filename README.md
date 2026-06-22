@@ -107,7 +107,7 @@ Accident_Risk_Prediction/
 
 Download from Kaggle: [US Accidents Dataset](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents)
 
-Place it in the project root as `accidents.csv` (not included in repo due to size).
+Placed it in the project root as `accidents.csv` (not included in repo due to size).
 
 ---
 
