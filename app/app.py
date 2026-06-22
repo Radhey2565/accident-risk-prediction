@@ -10,6 +10,8 @@ def load_model():
     return joblib.load(MODEL_PATH)
 
 model = load_model()
+st.write("Features expected by model:")
+st.write(model.feature_names_in_)
 
 # DEBUG - shows on page load, no button needed
 st.write("Feature names:", list(model.feature_names_in_))
