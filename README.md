@@ -1,106 +1,150 @@
-# 🚧 Accident Risk Prediction System
+# Accident Risk Prediction System
+> AI-Powered Road Safety Risk Analysis using Machine Learning
 
-### 🚀 AI-Powered Road Safety Risk Analysis
+[![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)](https://python.org)
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-red?logo=streamlit)](https://streamlit.io)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Accuracy](https://img.shields.io/badge/Accuracy-81%25-brightgreen)]()
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://radhey2565-accident-risk-prediction-appapp-rykbze.streamlit.app/)
 
-An intelligent Machine Learning application that predicts the likelihood of road accidents based on driving conditions such as speed, weather, road type, and traffic density. The project provides real-time risk assessment through an interactive Streamlit dashboard.
-
----
-
-## ✨ Features
-🔹 **Real-time Accident Risk Prediction**
-🔹 **Interactive and User-Friendly Dashboard**
-🔹 **Machine Learning-Based Decision Making**
-🔹 **Fast and Lightweight Inference**
-🔹 **Cloud Deployment using Streamlit Community Cloud**
-🔹 **Responsive UI for Easy Accessibility**
+An intelligent Machine Learning system that predicts road accident risk in real-time based on environmental and traffic conditions. Built with a Random Forest Classifier trained on the US Accidents dataset (~7.7M records), achieving **81% accuracy**.
 
 ---
 
-## 🛠️ Tech Stack
-
-| Technology   | Purpose                |
-| ------------ | ---------------------- |
-| Python       | Core Programming       |
-| Streamlit    | Web Application        |
-| Scikit-Learn | Machine Learning Model |
-| Pandas       | Data Processing        |
-| NumPy        | Numerical Computation  |
-| Joblib       | Model Serialization    |
-| Git & GitHub | Version Control        |
+## Live Demo
+🔗 [https://radhey2565-accident-risk-prediction-appapp-rykbze.streamlit.app/](https://radhey2565-accident-risk-prediction-appapp-rykbze.streamlit.app/)
 
 ---
 
-## 📂 Project Structure
+## Features
+- Real-time accident risk prediction (High / Low)
+- Interactive Streamlit dashboard
+- Trained on 7.7M+ real accident records
+- Handles class imbalance with balanced weighting
+- Lightweight and fast inference via serialized model
+- Cloud deployed on Streamlit Community Cloud
 
-```text
+---
+
+## Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| Python 3.10 | Core Programming |
+| Streamlit | Web Application |
+| Scikit-Learn | Machine Learning |
+| Pandas & NumPy | Data Processing |
+| Joblib | Model Serialization |
+| Git & GitHub | Version Control |
+
+---
+
+## Project Structure
+
 Accident_Risk_Prediction/
+
 │
+
 ├── app/
-│   └── app.py
+
+│   └── app.py                   # Streamlit web application
+
 │
+
 ├── models/
-│   └── risk_model.pkl
+
+│   └── risk_model.pkl           # Trained Random Forest model
+
 │
+
 ├── notebooks/
-│   └── train_model.py
+
+│   └── accident_analysis.ipynb  # EDA & model training
+
 │
+
 ├── requirements.txt
-│
+
 └── README.md
+
+---
+
+## How It Works
+
+1. User inputs driving conditions via the dashboard
+2. Inputs are passed to the trained Random Forest model
+3. Model predicts risk level based on learned patterns
+
+**Input Features:**
+- Temperature, Humidity, Pressure
+- Visibility & Wind Speed
+- Location (Lat/Lng)
+- Time features (Hour, Month, Day)
+
+**Output:**
+- 🔴 High Risk
+- 🟢 Low Risk
+
+---
+
+## Model Performance
+
+| Metric | Score |
+|---|---|
+| **Accuracy** | **81%** |
+| Precision (Low Risk) | 91% |
+| Precision (High Risk) | 74% |
+| Recall (Low Risk) | 73% |
+| Recall (High Risk) | 91% |
+| F1-Score | 81% |
+| Dataset | US Accidents (7.7M rows) |
+| Algorithm | Random Forest Classifier |
+| Class Handling | Balanced Weighting |
+
+---
+
+## Dataset
+
+Download from Kaggle: [US Accidents Dataset](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents)
+
+Place it in the project root as `accidents.csv` (not included in repo due to size).
+
+---
+
+## Getting Started
+
+```bash
+# Clone the repo
+git clone https://github.com/Radhey2565/accident-risk-prediction.git
+cd accident-risk-prediction
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the app
+streamlit run app/app.py
 ```
 
 ---
 
-## ⚙️ How It Works
-
-The system evaluates the following parameters:
-
-🚗 Vehicle Speed
-🌦️ Weather Conditions
-🛣️ Road Type
-🚦 Traffic Density
-
-Using these inputs, the trained Machine Learning model predicts whether the current driving situation represents:
-
-🔴 High Accident Risk
-🟢 Low Accident Risk
+## Future Improvements
+- [ ] Improve accuracy further with XGBoost/LightGBM
+- [ ] Add accident probability score (0-100%)
+- [ ] Weather API integration for live conditions
+- [ ] Accident hotspot mapping with Folium
+- [ ] Prediction history tracking
+- [ ] User authentication
 
 ---
 
-## 📸 Application Preview
+## Author
 
-<img width="1043" height="785" alt="image" src="https://github.com/user-attachments/assets/106a68a2-6b13-4355-a3cd-8b7ade98e586" />
-<img width="1077" height="807" alt="image" src="https://github.com/user-attachments/assets/f8af9ba4-7067-416b-84b3-512732764f0f" />
-
-
----
-
-## 🌐 Live Demo
-
-**Try the application here:**
-
-[https://radhey2565-accident-risk-prediction-appapp-rykbze.streamlit.app/]
-
----
-
-## 📈 Future Improvements
-
-* Real Accident Dataset Integration
-* Accident Probability Score
-* Interactive Risk Analytics Dashboard
-* Weather API Integration
-* Accident Hotspot Mapping
-* User Authentication
-* Prediction History Tracking
-
----
-
-## 👨‍💻 Author
-
-**Radhey Mohan Singh-7/10**
-
+**Radhey Mohan Singh**
 Passionate about Machine Learning, Data Science, and AI-powered solutions.
 
+[![GitHub](https://img.shields.io/badge/GitHub-Radhey2565-black?logo=github)](https://github.com/Radhey2565)
+
 ---
 
-⭐ If you found this project useful, consider giving it a star on GitHub!
+⭐ If you found this project helpful, consider giving it a star!
+
