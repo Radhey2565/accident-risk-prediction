@@ -117,4 +117,4 @@ with col2:
 
 # ---------------- FOOTER ----------------
 st.divider()
-st.caption("Built with ❤️ using Streamlit | Accident Risk Prediction Project")
+st.caption("Built with ❤️ AR | Accident Risk Prediction Project")
