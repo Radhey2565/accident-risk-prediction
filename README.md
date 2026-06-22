@@ -7,13 +7,12 @@ An intelligent Machine Learning application that predicts the likelihood of road
 ---
 
 ## ✨ Features
-
-✅ Real-time Accident Risk Prediction
-✅ Interactive and User-Friendly Dashboard
-✅ Machine Learning-Based Decision Making
-✅ Fast and Lightweight Inference
-✅ Cloud Deployment using Streamlit Community Cloud
-✅ Responsive UI for Easy Accessibility
+🔹 **Real-time Accident Risk Prediction**
+🔹 **Interactive and User-Friendly Dashboard**
+🔹 **Machine Learning-Based Decision Making**
+🔹 **Fast and Lightweight Inference**
+🔹 **Cloud Deployment using Streamlit Community Cloud**
+🔹 **Responsive UI for Easy Accessibility**
 
 ---
 
